@@ -1,0 +1,300 @@
+const slug=s=>String(s).toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+const E=(institution,name,award,family,scope,sourceId,routeType='four-year-college',interestTags=[])=>Object.freeze({
+  id:`${slug(institution)}-${slug(name)}-${slug(award)}`,institution,name,award,family,scope,routeType,interestTags,sourceIds:[sourceId]
+});
+
+const T='triad-core', C='central-nc-extended';
+
+export const EDUCATION_CATALOG=Object.freeze([
+  // Guilford Technical Community College — degree/career and transfer breadth.
+  E('GTCC','Associate in Arts - General Studies','AA','transfer',T,'gtcc-programs','community-college',['analyze','communicate']),
+  E('GTCC','Associate in Science - General Studies','AS','transfer',T,'gtcc-programs','community-college',['analyze']),
+  E('GTCC','Associate in Engineering','AE','engineering',T,'gtcc-programs','community-college',['build','analyze']),
+  E('GTCC','Accounting and Finance','AAS','business',T,'gtcc-programs','community-college',['organize','analyze']),
+  E('GTCC','Artificial Intelligence','AAS','computing',T,'gtcc-ai-2026','community-college',['analyze','create']),
+  E('GTCC','Aviation Systems Technology','AAS / Diploma / Certificate','aviation',T,'gtcc-aviation','community-college',['build','analyze']),
+  E('GTCC','Avionics / Aviation Electronics','Technical pathway','aviation',T,'gtcc-aviation','community-college',['build','analyze']),
+  E('GTCC','Aerospace Manufacturing / Structures','Technical pathway','advanced-manufacturing',T,'gtcc-aviation','community-college',['build']),
+  E('GTCC','Automotive Systems Technology','AAS','transportation',T,'gtcc-programs','community-college',['build']),
+  E('GTCC','Basic Law Enforcement Training','Certificate / Academy','public-safety',T,'gtcc-blet','community-college',['help','lead']),
+  E('GTCC','Business Administration','AAS','business',T,'gtcc-programs','community-college',['lead','organize']),
+  E('GTCC','Computer-Integrated Machining','AAS','advanced-manufacturing',T,'gtcc-programs','community-college',['build','analyze']),
+  E('GTCC','Criminal Justice Technology','AAS','public-safety',T,'gtcc-programs','community-college',['help','analyze']),
+  E('GTCC','Dental Hygiene','AAS','healthcare',T,'gtcc-programs','community-college',['help','build']),
+  E('GTCC','Digital Media Technology','AAS','communications-creative',T,'gtcc-ai-2026','community-college',['create','communicate']),
+  E('GTCC','Electrical Systems Technology','AAS','skilled-trades',T,'gtcc-programs','community-college',['build']),
+  E('GTCC','Emergency Medical Science','AAS','public-safety-healthcare',T,'gtcc-programs','community-college',['help','lead']),
+  E('GTCC','Health Information Technology','AAS','healthcare-technical',T,'gtcc-programs','community-college',['organize','analyze']),
+  E('GTCC','HVACR Technology','Diploma / Certificate','skilled-trades',T,'gtcc-programs','community-college',['build']),
+  E('GTCC','Information Technology - Computer Programming','AAS','computing',T,'gtcc-programs','community-college',['analyze','create']),
+  E('GTCC','Information Technology - Cyber Operations','AAS','computing',T,'gtcc-programs','community-college',['analyze']),
+  E('GTCC','Information Technology - General Studies','AAS','computing',T,'gtcc-programs','community-college',['analyze','organize']),
+  E('GTCC','Mechatronics Engineering Technology','AAS','advanced-manufacturing',T,'gtcc-mechatronics','community-college',['build','analyze']),
+  E('GTCC','Medical Assisting','AAS / Diploma','healthcare',T,'gtcc-programs','community-college',['help','organize']),
+  E('GTCC','Nursing','ADN','healthcare',T,'gtcc-programs','community-college',['help']),
+  E('GTCC','Radiography','AAS','healthcare',T,'gtcc-programs','community-college',['help','build']),
+  E('GTCC','Supply Chain Management','AAS','business-logistics',T,'gtcc-programs','community-college',['organize','analyze']),
+  E('GTCC','Welding Technology','Diploma / Certificate','skilled-trades',T,'gtcc-programs','community-college',['build']),
+
+  // Forsyth Technical Community College — current 2026-27 catalog breadth.
+  E('Forsyth Tech','Accounting and Finance - Accounting','AAS','business',T,'forsyth-catalog','community-college',['organize','analyze']),
+  E('Forsyth Tech','Accounting and Finance - Financial Services','AAS','business',T,'forsyth-catalog','community-college',['organize','analyze']),
+  E('Forsyth Tech','Air Conditioning, Heating and Refrigeration Technology','Diploma / Certificate','skilled-trades',T,'forsyth-catalog','community-college',['build']),
+  E('Forsyth Tech','Architectural Technology','AAS','design-engineering',T,'forsyth-catalog','community-college',['create','build']),
+  E('Forsyth Tech','Associate Degree Nursing','ADN','healthcare',T,'forsyth-catalog','community-college',['help']),
+  E('Forsyth Tech','Associate in Arts','AA','transfer',T,'forsyth-catalog','community-college',['communicate','analyze']),
+  E('Forsyth Tech','Associate in Engineering','AE','engineering',T,'forsyth-catalog','community-college',['build','analyze']),
+  E('Forsyth Tech','Associate in Science','AS','transfer',T,'forsyth-catalog','community-college',['analyze']),
+  E('Forsyth Tech','Automotive Systems Technology','AAS','transportation',T,'forsyth-catalog','community-college',['build']),
+  E('Forsyth Tech','Biotechnology','AAS','life-sciences',T,'forsyth-catalog','community-college',['analyze','build']),
+  E('Forsyth Tech','Business Administration','AAS','business',T,'forsyth-catalog','community-college',['lead','organize']),
+  E('Forsyth Tech','Computer-Integrated Machining','AAS','advanced-manufacturing',T,'forsyth-catalog','community-college',['build','analyze']),
+  E('Forsyth Tech','Criminal Justice Technology','AAS','public-safety',T,'forsyth-catalog','community-college',['help','analyze']),
+  E('Forsyth Tech','Dental Assisting','Diploma','healthcare',T,'forsyth-catalog','community-college',['help','build']),
+  E('Forsyth Tech','Early Childhood Education','AAS','education',T,'forsyth-catalog','community-college',['help','communicate']),
+  E('Forsyth Tech','Electrical Systems Technology','Diploma / Certificate','skilled-trades',T,'forsyth-catalog','community-college',['build']),
+  E('Forsyth Tech','Electronics Engineering Technology','AAS','engineering-technology',T,'forsyth-catalog','community-college',['build','analyze']),
+  E('Forsyth Tech','Emergency Management','AAS','public-safety',T,'forsyth-catalog','community-college',['lead','organize']),
+  E('Forsyth Tech','Emergency Medical Science','AAS','public-safety-healthcare',T,'forsyth-catalog','community-college',['help','lead']),
+  E('Forsyth Tech','Entrepreneurship','AAS','business',T,'forsyth-catalog','community-college',['lead','create']),
+  E('Forsyth Tech','Graphic Arts and Imaging Technology','Diploma','communications-creative',T,'forsyth-catalog','community-college',['create','build']),
+  E('Forsyth Tech','Health Information Technology','AAS','healthcare-technical',T,'forsyth-catalog','community-college',['organize','analyze']),
+  E('Forsyth Tech','IT - Artificial Intelligence','AAS','computing',T,'forsyth-catalog','community-college',['analyze','create']),
+  E('Forsyth Tech','IT - Cyber Security','AAS','computing',T,'forsyth-catalog','community-college',['analyze']),
+  E('Forsyth Tech','IT - Data Reporting & Analytics','AAS','computing',T,'forsyth-catalog','community-college',['analyze','organize']),
+  E('Forsyth Tech','IT - Network Security','AAS','computing',T,'forsyth-catalog','community-college',['analyze','build']),
+  E('Forsyth Tech','IT - Programming & Software Development','AAS','computing',T,'forsyth-catalog','community-college',['analyze','create']),
+  E('Forsyth Tech','IT - Web Technologies','AAS','computing',T,'forsyth-catalog','community-college',['create','analyze']),
+  E('Forsyth Tech','Magnetic Resonance Imaging','AAS','healthcare',T,'forsyth-catalog','community-college',['help','build']),
+  E('Forsyth Tech','Mechanical Engineering Technology','AAS','engineering-technology',T,'forsyth-catalog','community-college',['build','analyze']),
+  E('Forsyth Tech','Mechatronics Engineering Technology','AAS','advanced-manufacturing',T,'forsyth-catalog','community-college',['build','analyze']),
+  E('Forsyth Tech','Paralegal Technology','AAS','legal',T,'forsyth-catalog','community-college',['organize','communicate']),
+  E('Forsyth Tech','Pharmacy Technology','AAS','healthcare',T,'forsyth-catalog','community-college',['help','organize']),
+  E('Forsyth Tech','Plumbing','Diploma / Certificate','skilled-trades',T,'forsyth-catalog','community-college',['build']),
+  E('Forsyth Tech','Practical Nursing','Diploma','healthcare',T,'forsyth-catalog','community-college',['help']),
+  E('Forsyth Tech','Project Management Technology','AAS','business',T,'forsyth-catalog','community-college',['lead','organize']),
+  E('Forsyth Tech','Public Safety Administration - Law Enforcement Services','AAS','public-safety',T,'forsyth-catalog','community-college',['lead','organize']),
+  E('Forsyth Tech','Race Car Technology','AAS','transportation',T,'forsyth-catalog','community-college',['build','analyze']),
+  E('Forsyth Tech','Respiratory Therapy','AAS','healthcare',T,'forsyth-catalog','community-college',['help','build']),
+  E('Forsyth Tech','Surgical Technology','AAS','healthcare',T,'forsyth-catalog','community-college',['help','build']),
+  E('Forsyth Tech','Welding Technology','Diploma / Certificate','skilled-trades',T,'forsyth-catalog','community-college',['build']),
+
+  // Davidson-Davie Community College.
+  E('Davidson-Davie CC','Associate in Arts','AA','transfer',T,'davidsondavie-programs','community-college',['communicate','analyze']),
+  E('Davidson-Davie CC','Associate in Science','AS','transfer',T,'davidsondavie-programs','community-college',['analyze']),
+  E('Davidson-Davie CC','Accounting and Finance','AAS','business',T,'davidsondavie-programs','community-college',['organize','analyze']),
+  E('Davidson-Davie CC','Automotive Systems Technology','AAS','transportation',T,'davidsondavie-programs','community-college',['build']),
+  E('Davidson-Davie CC','Business Administration','AAS','business',T,'davidsondavie-programs','community-college',['lead','organize']),
+  E('Davidson-Davie CC','Computer-Integrated Machining','AAS','advanced-manufacturing',T,'davidsondavie-programs','community-college',['build','analyze']),
+  E('Davidson-Davie CC','Diesel and Heavy Equipment Technology','AAS','transportation',T,'davidsondavie-programs','community-college',['build']),
+  E('Davidson-Davie CC','Electrical Systems Technology','AAS','skilled-trades',T,'davidsondavie-programs','community-college',['build']),
+  E('Davidson-Davie CC','Electronics Engineering Technology','AAS','engineering-technology',T,'davidsondavie-programs','community-college',['build','analyze']),
+  E('Davidson-Davie CC','Emergency Medical Science','AAS','public-safety-healthcare',T,'davidsondavie-programs','community-college',['help','lead']),
+  E('Davidson-Davie CC','Health Information Technology','AAS','healthcare-technical',T,'davidsondavie-programs','community-college',['organize','analyze']),
+  E('Davidson-Davie CC','Information Technology','AAS','computing',T,'davidsondavie-programs','community-college',['analyze','build']),
+  E('Davidson-Davie CC','Medical Laboratory Technology','AAS','healthcare-technical',T,'davidsondavie-programs','community-college',['analyze','help']),
+  E('Davidson-Davie CC','Nursing','ADN','healthcare',T,'davidsondavie-programs','community-college',['help']),
+  E('Davidson-Davie CC','Supply Chain Management','AAS','business-logistics',T,'davidsondavie-programs','community-college',['organize','analyze']),
+  E('Davidson-Davie CC','Surgical Technology','AAS','healthcare',T,'davidsondavie-programs','community-college',['help','build']),
+  E('Davidson-Davie CC','Truck Driver Training','Certificate','transportation',T,'davidsondavie-programs','community-college',['build']),
+  E('Davidson-Davie CC','Welding Technology','Diploma / Certificate','skilled-trades',T,'davidsondavie-programs','community-college',['build']),
+
+  // Randolph Community College.
+  E('Randolph CC','Associate in Arts','AA','transfer',T,'randolph-programs','community-college',['communicate','analyze']),
+  E('Randolph CC','Associate in Science','AS','transfer',T,'randolph-programs','community-college',['analyze']),
+  E('Randolph CC','Accounting and Finance','AAS','business',T,'randolph-programs','community-college',['organize','analyze']),
+  E('Randolph CC','Agribusiness Technology','AAS','agriculture-business',T,'randolph-programs','community-college',['build','organize']),
+  E('Randolph CC','Automotive Systems Technology','AAS','transportation',T,'randolph-programs','community-college',['build']),
+  E('Randolph CC','Business Administration','AAS','business',T,'randolph-programs','community-college',['lead','organize']),
+  E('Randolph CC','Computer-Integrated Machining','AAS','advanced-manufacturing',T,'randolph-programs','community-college',['build','analyze']),
+  E('Randolph CC','Criminal Justice Technology','AAS','public-safety',T,'randolph-programs','community-college',['help','analyze']),
+  E('Randolph CC','Electrical Systems Technology','AAS','skilled-trades',T,'randolph-programs','community-college',['build']),
+  E('Randolph CC','Emergency Medical Science','AAS','public-safety-healthcare',T,'randolph-programs','community-college',['help','lead']),
+  E('Randolph CC','Industrial Systems Technology','AAS','advanced-manufacturing',T,'randolph-industrial','community-college',['build','analyze']),
+  E('Randolph CC','Information Technology','AAS','computing',T,'randolph-programs','community-college',['analyze','build']),
+  E('Randolph CC','Nursing','ADN','healthcare',T,'randolph-programs','community-college',['help']),
+  E('Randolph CC','Photographic Technology','AAS','communications-creative',T,'randolph-programs','community-college',['create']),
+  E('Randolph CC','Welding Technology','Diploma / Certificate','skilled-trades',T,'randolph-programs','community-college',['build']),
+
+  // Alamance, Rockingham, Surry — broader Triad-region options.
+  E('Alamance CC','Associate in Arts','AA','transfer',T,'alamance-programs','community-college',['communicate','analyze']),
+  E('Alamance CC','Associate in Science','AS','transfer',T,'alamance-programs','community-college',['analyze']),
+  E('Alamance CC','Agribusiness Technology','AAS','agriculture-business',T,'alamance-programs','community-college',['build','organize']),
+  E('Alamance CC','Automotive Systems Technology','AAS','transportation',T,'alamance-programs','community-college',['build']),
+  E('Alamance CC','Biotechnology','AAS','life-sciences',T,'alamance-programs','community-college',['analyze','build']),
+  E('Alamance CC','Business Administration','AAS','business',T,'alamance-programs','community-college',['lead','organize']),
+  E('Alamance CC','Computer-Integrated Machining','AAS','advanced-manufacturing',T,'alamance-programs','community-college',['build','analyze']),
+  E('Alamance CC','Criminal Justice Technology','AAS','public-safety',T,'alamance-programs','community-college',['help','analyze']),
+  E('Alamance CC','HVACR Technology','Diploma / Certificate','skilled-trades',T,'alamance-programs','community-college',['build']),
+  E('Alamance CC','Information Technology','AAS','computing',T,'alamance-programs','community-college',['analyze','build']),
+  E('Alamance CC','Medical Laboratory Technology','AAS','healthcare-technical',T,'alamance-programs','community-college',['analyze','help']),
+  E('Alamance CC','Nursing','ADN','healthcare',T,'alamance-programs','community-college',['help']),
+
+  E('Rockingham CC','Associate in Arts / Science Transfer','AA / AS','transfer',T,'rockingham-programs','community-college',['analyze','communicate']),
+  E('Rockingham CC','Accounting and Finance','AAS','business',T,'rockingham-programs','community-college',['organize','analyze']),
+  E('Rockingham CC','Agribusiness Technology','AAS','agriculture-business',T,'rockingham-programs','community-college',['build','organize']),
+  E('Rockingham CC','Business Administration','AAS','business',T,'rockingham-programs','community-college',['lead','organize']),
+  E('Rockingham CC','Criminal Justice Technology','AAS','public-safety',T,'rockingham-programs','community-college',['help','analyze']),
+  E('Rockingham CC','Electrical Systems Technology','AAS','skilled-trades',T,'rockingham-programs','community-college',['build']),
+  E('Rockingham CC','HVACR Technology','AAS / Diploma','skilled-trades',T,'rockingham-programs','community-college',['build']),
+  E('Rockingham CC','Information Technology','AAS','computing',T,'rockingham-programs','community-college',['analyze','build']),
+  E('Rockingham CC','Machining Technology','AAS','advanced-manufacturing',T,'rockingham-programs','community-college',['build','analyze']),
+  E('Rockingham CC','Mechatronics Engineering Technology','AAS','advanced-manufacturing',T,'rockingham-programs','community-college',['build','analyze']),
+  E('Rockingham CC','Nursing','ADN','healthcare',T,'rockingham-programs','community-college',['help']),
+  E('Rockingham CC','Welding Technology','Diploma / Certificate','skilled-trades',T,'rockingham-programs','community-college',['build']),
+
+  E('Surry CC','Associate in Arts / Science Transfer','AA / AS','transfer',T,'surry-programs','community-college',['analyze','communicate']),
+  E('Surry CC','Accounting and Finance','AAS','business',T,'surry-programs','community-college',['organize','analyze']),
+  E('Surry CC','Agricultural Science','AAS','agriculture',T,'surry-programs','community-college',['build','analyze']),
+  E('Surry CC','Automotive Systems Technology','AAS','transportation',T,'surry-programs','community-college',['build']),
+  E('Surry CC','Business Administration','AAS','business',T,'surry-programs','community-college',['lead','organize']),
+  E('Surry CC','Computer-Integrated Machining','AAS','advanced-manufacturing',T,'surry-programs','community-college',['build','analyze']),
+  E('Surry CC','Criminal Justice Technology','AAS','public-safety',T,'surry-programs','community-college',['help','analyze']),
+  E('Surry CC','HVACR Technology','Diploma / Certificate','skilled-trades',T,'surry-programs','community-college',['build']),
+  E('Surry CC','Information Technology','AAS','computing',T,'surry-programs','community-college',['analyze','build']),
+  E('Surry CC','Mechatronics Engineering Technology','AAS','advanced-manufacturing',T,'surry-programs','community-college',['build','analyze']),
+  E('Surry CC','Nursing','ADN','healthcare',T,'surry-programs','community-college',['help']),
+  E('Surry CC','Welding Technology','Diploma / Certificate','skilled-trades',T,'surry-programs','community-college',['build']),
+
+  // Extended Central NC community-college ring.
+  E('Wake Tech','Associate in Arts / Science / Engineering / Fine Arts','Transfer degrees','transfer',C,'wake-tech-programs','community-college',['analyze','communicate','create']),
+  E('Wake Tech','Biotechnology','AAS','life-sciences',C,'wake-tech-programs','community-college',['analyze','build']),
+  E('Wake Tech','Cybersecurity','AAS','computing',C,'wake-tech-programs','community-college',['analyze']),
+  E('Wake Tech','Data Science / Analytics','AAS / Certificate','computing',C,'wake-tech-programs','community-college',['analyze']),
+  E('Wake Tech','Emergency Medical Science','AAS','public-safety-healthcare',C,'wake-tech-programs','community-college',['help','lead']),
+  E('Wake Tech','Engineering Technology','AAS','engineering-technology',C,'wake-tech-programs','community-college',['build','analyze']),
+  E('Wake Tech','Nursing','ADN','healthcare',C,'wake-tech-programs','community-college',['help']),
+  E('Wake Tech','Software Development','AAS','computing',C,'wake-tech-programs','community-college',['create','analyze']),
+  E('Wake Tech','Supply Chain Management','AAS','business-logistics',C,'wake-tech-programs','community-college',['organize','analyze']),
+  E('Durham Tech','Associate in Arts / Science / Engineering','Transfer degrees','transfer',C,'durham-tech-programs','community-college',['analyze','communicate']),
+  E('Durham Tech','Accounting and Finance','AAS','business',C,'durham-tech-programs','community-college',['organize','analyze']),
+  E('Durham Tech','Anesthesia Technology','AAS','healthcare',C,'durham-tech-programs','community-college',['help','build']),
+  E('Durham Tech','Architectural Technology','AAS','design-engineering',C,'durham-tech-programs','community-college',['create','build']),
+  E('Durham Tech','Cybersecurity','AAS','computing',C,'durham-tech-programs','community-college',['analyze']),
+  E('Durham Tech','Information Technology','AAS','computing',C,'durham-tech-programs','community-college',['analyze','build']),
+  E('Durham Tech','Nursing','ADN','healthcare',C,'durham-tech-programs','community-college',['help']),
+
+  // NC A&T — current undergraduate bachelor inventory with strong local technical breadth.
+  E('NC A&T','Accounting','BS','business',T,'ncat-majors','four-year-college',['organize','analyze']),
+  E('NC A&T','Aeronautical and Astronautical Engineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Agricultural and Environmental Systems','BS','agriculture-engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Agricultural Education','BS','education-agriculture',T,'ncat-majors','four-year-college',['help','build']),
+  E('NC A&T','Artificial Intelligence','BS','computing',T,'ncat-majors','four-year-college',['analyze','create']),
+  E('NC A&T','Animal Science','BS','science-agriculture',T,'ncat-majors','four-year-college',['help','analyze']),
+  E('NC A&T','Applied Engineering Technology','BS','engineering-technology',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Atmospheric Sciences and Meteorology','BS','science',T,'ncat-majors','four-year-college',['analyze']),
+  E('NC A&T','Automotive Engineering Technology','BS','engineering-technology',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Bioengineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze','help']),
+  E('NC A&T','Biological Engineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Biology','BS','science',T,'ncat-majors','four-year-college',['analyze']),
+  E('NC A&T','Business Analytics','BS','business-data',T,'ncat-majors','four-year-college',['analyze','organize']),
+  E('NC A&T','Business Information Technology','BS','business-computing',T,'ncat-majors','four-year-college',['analyze','organize']),
+  E('NC A&T','Chemical Engineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Chemistry','BS','science',T,'ncat-majors','four-year-college',['analyze']),
+  E('NC A&T','Civil, Architectural and Environmental Engineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Computer Engineering','BS','engineering-computing',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Computer Graphics Technology','BS','computing-creative',T,'ncat-majors','four-year-college',['create','build']),
+  E('NC A&T','Computer Science','BS','computing',T,'ncat-majors','four-year-college',['analyze','create']),
+  E('NC A&T','Construction Management','BS','construction-business',T,'ncat-majors','four-year-college',['build','lead','organize']),
+  E('NC A&T','Criminal Justice','BS','public-safety-social-science',T,'ncat-majors','four-year-college',['help','analyze']),
+  E('NC A&T','Economics','BS','business-social-science',T,'ncat-majors','four-year-college',['analyze']),
+  E('NC A&T','Electrical Engineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Electronics Technology','BS','engineering-technology',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Environmental Health and Safety','BS','science-public-safety',T,'ncat-majors','four-year-college',['analyze','help']),
+  E('NC A&T','Finance','BS','business',T,'ncat-majors','four-year-college',['analyze','organize']),
+  E('NC A&T','Food and Nutritional Sciences','BS','science-healthcare',T,'ncat-majors','four-year-college',['analyze','help']),
+  E('NC A&T','Geomatics','BS','engineering-technology',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Health Services Management','BS','healthcare-business',T,'ncat-majors','four-year-college',['lead','organize','help']),
+  E('NC A&T','Industrial and Systems Engineering','BS','engineering',T,'ncat-majors','four-year-college',['analyze','build','organize']),
+  E('NC A&T','Information Technology','BS','computing',T,'ncat-majors','four-year-college',['analyze','build']),
+  E('NC A&T','Journalism and Mass Communication','BS','communications-creative',T,'ncat-majors','four-year-college',['communicate','create']),
+  E('NC A&T','Kinesiology','BS','health-fitness',T,'ncat-majors','four-year-college',['help','analyze']),
+  E('NC A&T','Laboratory Animal Science','BS','science-healthcare',T,'ncat-majors','four-year-college',['analyze','help']),
+  E('NC A&T','Landscape Architecture','BS','design-engineering',T,'ncat-majors','four-year-college',['create','build']),
+  E('NC A&T','Management','BS','business',T,'ncat-majors','four-year-college',['lead','organize']),
+  E('NC A&T','Management Information Systems','BS','business-computing',T,'ncat-majors','four-year-college',['analyze','organize']),
+  E('NC A&T','Marketing','BS','business',T,'ncat-majors','four-year-college',['communicate','lead']),
+  E('NC A&T','Mathematics','BS','science-math',T,'ncat-majors','four-year-college',['analyze']),
+  E('NC A&T','Mechanical Engineering','BS','engineering',T,'ncat-majors','four-year-college',['build','analyze']),
+  E('NC A&T','Nursing','BSN','healthcare',T,'ncat-majors','four-year-college',['help']),
+  E('NC A&T','Physics','BS','science',T,'ncat-majors','four-year-college',['analyze']),
+  E('NC A&T','Psychology','BA','social-science',T,'ncat-majors','four-year-college',['help','analyze']),
+  E('NC A&T','Social Work','BSW','social-service',T,'ncat-majors','four-year-college',['help']),
+  E('NC A&T','Supply Chain Management','BS','business-logistics',T,'ncat-majors','four-year-college',['organize','analyze']),
+  E('NC A&T','Visual Arts and Design','BA','communications-creative',T,'ncat-majors','four-year-college',['create']),
+
+  // UNC Greensboro — broad local public-university inventory.
+  E('UNCG','Accounting','BS','business',T,'uncg-programs','four-year-college',['organize','analyze']),
+  E('UNCG','Anthropology','BA','social-science',T,'uncg-programs','four-year-college',['analyze','communicate']),
+  E('UNCG','Art','BA / BFA','communications-creative',T,'uncg-programs','four-year-college',['create']),
+  E('UNCG','Biology','BA / BS','science',T,'uncg-programs','four-year-college',['analyze']),
+  E('UNCG','Business Administration','BS','business',T,'uncg-programs','four-year-college',['lead','organize']),
+  E('UNCG','Chemistry and Biochemistry','BS','science',T,'uncg-programs','four-year-college',['analyze']),
+  E('UNCG','Communication Studies','BA','communications',T,'uncg-programs','four-year-college',['communicate','lead']),
+  E('UNCG','Computer Science','BS','computing',T,'uncg-programs','four-year-college',['analyze','create']),
+  E('UNCG','Consumer, Apparel and Retail Studies','BS','business-creative',T,'uncg-programs','four-year-college',['create','organize']),
+  E('UNCG','Economics','BA','business-social-science',T,'uncg-programs','four-year-college',['analyze']),
+  E('UNCG','English','BA','humanities',T,'uncg-programs','four-year-college',['communicate','create']),
+  E('UNCG','Finance','BS','business',T,'uncg-programs','four-year-college',['analyze','organize']),
+  E('UNCG','Geography, Environment and Sustainability','BA','science-social-science',T,'uncg-programs','four-year-college',['analyze']),
+  E('UNCG','History','BA','humanities',T,'uncg-programs','four-year-college',['analyze','communicate']),
+  E('UNCG','Human Development and Family Studies','BS','social-service',T,'uncg-programs','four-year-college',['help','analyze']),
+  E('UNCG','Information Systems & Supply Chain Management','BS','business-computing',T,'uncg-isscm','four-year-college',['analyze','organize']),
+  E('UNCG','Integrated Professional Studies','BS','interdisciplinary',T,'uncg-programs','four-year-college',['organize','communicate']),
+  E('UNCG','International and Global Studies','BA','social-science',T,'uncg-programs','four-year-college',['communicate','analyze']),
+  E('UNCG','Kinesiology','BS','health-fitness',T,'uncg-programs','four-year-college',['help','analyze']),
+  E('UNCG','Marketing','BS','business',T,'uncg-programs','four-year-college',['communicate','lead']),
+  E('UNCG','Mathematics','BA / BS','science-math',T,'uncg-programs','four-year-college',['analyze']),
+  E('UNCG','Media Studies','BA','communications-creative',T,'uncg-programs','four-year-college',['create','communicate']),
+  E('UNCG','Music','BM / BA','communications-creative',T,'uncg-programs','four-year-college',['create']),
+  E('UNCG','Nursing','BSN','healthcare',T,'uncg-programs','four-year-college',['help']),
+  E('UNCG','Philosophy','BA','humanities',T,'uncg-programs','four-year-college',['analyze','communicate']),
+  E('UNCG','Political Science','BA','social-science',T,'uncg-programs','four-year-college',['analyze','communicate']),
+  E('UNCG','Psychology','BA','social-science',T,'uncg-programs','four-year-college',['help','analyze']),
+  E('UNCG','Public Health Education','BS','healthcare-social',T,'uncg-programs','four-year-college',['help','communicate']),
+  E('UNCG','Recreation and Parks Management','BS','public-service',T,'uncg-programs','four-year-college',['lead','help']),
+  E('UNCG','Social Work','BSW','social-service',T,'uncg-programs','four-year-college',['help']),
+  E('UNCG','Sociology','BA','social-science',T,'uncg-programs','four-year-college',['analyze','help']),
+  E('UNCG','Special Education','BS','education',T,'uncg-programs','four-year-college',['help','communicate']),
+  E('UNCG','Teacher Education','BS / licensure pathways','education',T,'uncg-programs','four-year-college',['help','communicate']),
+  E('UNCG','Theatre','BFA / BA','communications-creative',T,'uncg-programs','four-year-college',['create','communicate']),
+
+  // Winston-Salem State University — full current majors/concentrations list condensed from official page.
+  ...[
+    ['Accounting','BS','business',['organize','analyze']],['Africana Studies','BA','humanities',['analyze','communicate']],['Art','BA','communications-creative',['create']],['Biology','BS','science',['analyze']],['Birth-Kindergarten Education','BS','education',['help','communicate']],['Business Administration','BS','business',['lead','organize']],['Chemistry','BS','science',['analyze']],['Computer Science','BS','computing',['analyze','create']],['Economics','BS','business-social-science',['analyze']],['Elementary Education','BS','education',['help','communicate']],['English','BA','humanities',['communicate','create']],['Exercise Science','BS','health-fitness',['help','analyze']],['Finance','BSBA concentration','business',['analyze','organize']],['Gerontology','BA','social-service',['help']],['Healthcare Management','BS','healthcare-business',['lead','organize']],['History','BA','humanities',['analyze','communicate']],['Information Technology','BS','computing',['analyze','build']],['Interdisciplinary Studies','BIS','interdisciplinary',['analyze','communicate']],['Justice Studies','BA','public-safety-social-science',['help','analyze']],['Management','BSBA concentration','business',['lead','organize']],['Marketing','BSBA concentration','business',['communicate','lead']],['Mass Communications','BA','communications-creative',['communicate','create']],['Mathematics','BS','science-math',['analyze']],['Medical Laboratory Science','BS','healthcare-technical',['analyze','help']],['Management Information Systems','BSBA concentration','business-computing',['analyze','organize']],['Motorsport Management','BS','business-transportation',['lead','organize']],['Music','BA','communications-creative',['create']],['Nursing','BSN','healthcare',['help']],['Sports and Wellness Studies','BS','health-fitness',['help']],['Political Science','BA','social-science',['analyze','communicate']],['Psychology','BA','social-science',['help','analyze']],['Rehabilitation Studies','BS','social-service',['help']],['Social Work','BSW','social-service',['help']],['Sociology','BA','social-science',['analyze','help']],['Spanish','BA','humanities-language',['communicate']],['Sport Management','BS','business-sports',['lead','organize']],['Teaching','BS','education',['help','communicate']],['Therapeutic Recreation','BS','health-social',['help']]
+  ].map(([n,a,f,t])=>E('WSSU',n,a,f,T,'wssu-programs','four-year-college',t)),
+
+  // UNC Charlotte — broad public-university regional option.
+  ...[
+    ['Accounting','BS','business',['organize','analyze']],['Architecture','B.Arch / BA','design-engineering',['create','build']],['Art','BFA / BA','communications-creative',['create']],['Biology','BS','science',['analyze']],['Business Analytics','BSBA','business-data',['analyze','organize']],['Civil Engineering','BS','engineering',['build','analyze']],['Computer Engineering','BS','engineering-computing',['build','analyze']],['Computer Science - AI, Robotics & Gaming','BS','computing',['analyze','create']],['Computer Science - Cybersecurity','BS','computing',['analyze']],['Computer Science - Data Science','BS','computing',['analyze']],['Computer Science - Systems & Networks','BS','computing',['build','analyze']],['Computer Science - Web/Mobile/Software Engineering','BS','computing',['create','analyze']],['Construction Management','BS','construction-business',['build','lead']],['Criminal Justice','BA','public-safety-social-science',['help','analyze']],['Data Science','BS','computing-data',['analyze']],['Economics','BS / BA','business-social-science',['analyze']],['Electrical Engineering','BS','engineering',['build','analyze']],['Finance','BSBA','business',['analyze','organize']],['Fire and Safety Engineering Technology','BSET','public-safety-engineering',['build','help']],['Geology','BS','science',['analyze','build']],['Health Systems Management','BS','healthcare-business',['organize','help']],['Industrial Engineering','BS','engineering',['analyze','organize']],['Management','BSBA','business',['lead','organize']],['Marketing','BSBA','business',['communicate','lead']],['Mechanical Engineering','BS','engineering',['build','analyze']],['Nursing','BSN','healthcare',['help']],['Political Science','BA','social-science',['analyze','communicate']],['Psychology','BA','social-science',['help','analyze']],['Public Health','BS','health-social',['help','analyze']],['Social Work','BSW','social-service',['help']],['Systems Engineering','BS','engineering',['analyze','organize']]
+  ].map(([n,a,f,t])=>E('UNC Charlotte',n,a,f,C,'charlotte-programs','four-year-college',t)),
+
+  // Elon University — nearby private option with unusually broad undergraduate catalog.
+  ...[
+    ['Accounting','BS','business',['organize','analyze']],['Acting','BFA','communications-creative',['create','communicate']],['Anthropology','AB','social-science',['analyze','communicate']],['Applied Mathematics','AB / BS','science-math',['analyze']],['Art','AB / BFA','communications-creative',['create']],['Art History','AB','humanities',['analyze','create']],['Arts Administration','AB','communications-business',['create','organize']],['Astronomy','AB','science',['analyze']],['Astrophysics','BS','science',['analyze']],['Biochemistry','BS','science',['analyze']],['Biology','AB / BS','science',['analyze']],['Business Analytics & AI','BSBA','business-data',['analyze','organize']],['Business Economics & Consulting','BSBA','business',['analyze','communicate']],['Civil Engineering','BS','engineering',['build','analyze']],['Communication Design','AB','communications-creative',['create','communicate']],['Computer Science','AB / BS','computing',['analyze','create']],['Cybersecurity','BS','computing',['analyze']],['Data Analytics','AB','computing-data',['analyze']],['Digital Content Management','AB','communications-creative',['create','organize']],['Economics','AB','business-social-science',['analyze']],['Engineering - Biomedical','BS','engineering',['build','analyze','help']],['Engineering - Civil & Environmental','BS','engineering',['build','analyze']],['Engineering - Computing','BS','engineering-computing',['build','analyze']],['Engineering - Mechanical','BS','engineering',['build','analyze']],['English','AB','humanities',['communicate','create']],['Environmental Studies','BS','science-social-science',['analyze']],['Exercise Science','BS','health-fitness',['help','analyze']],['Finance','BSBA','business',['analyze','organize']],['Financial Technology','BS','business-computing',['analyze','create']],['Human Resource Management','BSBA','business',['help','organize']],['Human Service Studies','AB','social-service',['help']],['International & Global Studies','AB','social-science',['communicate','analyze']],['International Business','BSBA','business',['communicate','organize']],['Journalism','AB','communications-creative',['communicate','create']],['Marketing','BSBA','business',['communicate','lead']],['Mathematics','AB / BS','science-math',['analyze']],['Mechanical Engineering','BS','engineering',['build','analyze']],['Media Analytics','AB','communications-data',['analyze','communicate']],['Neuroscience','AB / BS','science',['analyze']],['Nursing','BSN','healthcare',['help']],['Outdoor Leadership & Education','BS','education-outdoors',['lead','help','build']],['Physics','AB / BS','science',['analyze']],['Political Science','AB','social-science',['analyze','communicate']],['Psychology','AB','social-science',['help','analyze']],['Public Health','AB','health-social',['help','analyze']],['Public Policy','AB','social-science',['analyze','communicate']],['Sociology','AB','social-science',['analyze','help']],['Sport Management','BS','business-sports',['lead','organize']],['Statistics','AB / BS','science-math',['analyze']],['Strategic Communications','AB','communications-creative',['communicate','create']],['Supply Chain Management','BSBA','business-logistics',['organize','analyze']]
+  ].map(([n,a,f,t])=>E('Elon University',n,a,f,T,'elon-programs','four-year-college',t)),
+
+  // Guilford College — local private option.
+  ...[
+    ['Accounting','BS','business',['organize','analyze']],['Analytics','BS','business-data',['analyze']],['Art','BA','communications-creative',['create']],['Biology','BS','science',['analyze']],['Business Administration','BS','business',['lead','organize']],['Chemistry','BS','science',['analyze']],['Community & Justice Studies','BA','social-science',['help','analyze']],['Computing Technology & Information Systems','BS','computing',['analyze','build']],['Creative Writing','BA','humanities',['create','communicate']],['Criminal Justice','BA','public-safety-social-science',['help','analyze']],['Cyber & Network Security','BS','computing',['analyze','build']],['Economics','BA','business-social-science',['analyze']],['Education Studies','BA','education',['help','communicate']],['English and Media Studies','BA','humanities-communications',['communicate','create']],['Environmental Studies','BA / BS','science-social-science',['analyze']],['History','BA','humanities',['analyze','communicate']],['Music','BA','communications-creative',['create']],['Peace & Conflict Studies','BA','social-science',['help','analyze']],['Physics','BS','science',['analyze']],['Political Science','BA','social-science',['analyze','communicate']],['Psychology','BA','social-science',['help','analyze']],['Public Health','BS','health-social',['help','analyze']],['Sociology and Anthropology','BA','social-science',['analyze','help']],['Sport Management','BS','business-sports',['lead','organize']],['Sustainable Food Systems','BA','agriculture-social',['build','analyze']],['Theatre Studies','BA','communications-creative',['create','communicate']]
+  ].map(([n,a,f,t])=>E('Guilford College',n,a,f,T,'guilford-programs','four-year-college',t)),
+
+  // High Point University — local private option; curated current major families.
+  ...[
+    ['Accounting','BSBA','business',['organize','analyze']],['Business Administration / Management','BSBA','business',['lead','organize']],['Business Analytics & Economics','BSBA','business-data',['analyze','organize']],['Computer Engineering','BS','engineering-computing',['build','analyze']],['Computer Science','BS','computing',['analyze','create']],['Cybersecurity','BS','computing',['analyze']],['Data Analytics & Statistics','BS','computing-data',['analyze']],['Electrical Engineering','BS','engineering',['build','analyze']],['Finance','BSBA','business',['analyze','organize']],['Graphic Design / Design Studies','BA','communications-creative',['create']],['Healthcare Management','BSBA','healthcare-business',['lead','organize']],['International Business','BSBA','business',['communicate','organize']],['Marketing','BSBA','business',['communicate','lead']],['Mechanical Engineering','BS','engineering',['build','analyze']],['Mechatronics','BS','engineering-technology',['build','analyze']],['Studio Art','BFA','communications-creative',['create']]
+  ].map(([n,a,f,t])=>E('High Point University',n,a,f,T,'hpu-programs','four-year-college',t)),
+
+  // Wake Forest — nearby private university, broad exploratory inventory.
+  ...[
+    ['Anthropology','BA','social-science',['analyze','communicate']],['Art','BA','communications-creative',['create']],['Biochemistry and Molecular Biology','BS','science',['analyze']],['Biology','BA / BS','science',['analyze']],['Business and Enterprise Management','BS','business',['lead','organize']],['Chemistry','BA / BS','science',['analyze']],['Communication','BA','communications',['communicate','lead']],['Computer Science','BA / BS','computing',['analyze','create']],['Economics','BA','business-social-science',['analyze']],['Engineering','BS','engineering',['build','analyze']],['English','BA','humanities',['communicate','create']],['Finance','BS','business',['analyze','organize']],['History','BA','humanities',['analyze','communicate']],['Mathematics','BA / BS','science-math',['analyze']],['Physics','BA / BS','science',['analyze']],['Political Science','BA','social-science',['analyze','communicate']],['Psychology','BA','social-science',['help','analyze']],['Sociology','BA','social-science',['analyze','help']]
+  ].map(([n,a,f,t])=>E('Wake Forest University',n,a,f,T,'wake-forest-programs','four-year-college',t)),
+
+  // NC State — extended regional public option, especially important for engineering/agriculture/design.
+  ...[
+    ['Accounting','BS','business',['organize','analyze']],['Aerospace Engineering','BS','engineering',['build','analyze']],['Agricultural Business Management','BS','agriculture-business',['organize','build']],['Animal Science','BS','science-agriculture',['help','analyze']],['Architecture','B.Arch','design-engineering',['create','build']],['Biological, Agricultural and Ecological Engineering','BS','engineering',['build','analyze']],['Biological Sciences','BS','science',['analyze']],['Biomedical Engineering','BS','engineering',['build','analyze','help']],['Bioprocessing Science','BS','life-sciences',['analyze','build']],['Business Administration - Analytics / Finance / IT / Marketing / Supply Chain','BS','business',['analyze','organize','lead']],['Chemical Engineering','BS','engineering',['build','analyze']],['Civil Engineering','BS','engineering',['build','analyze']],['Computer Engineering','BS','engineering-computing',['build','analyze']],['Computer Science','BS','computing',['analyze','create']],['Construction Engineering','BS','engineering',['build','organize']],['Economics','BA / BS','business-social-science',['analyze']],['Electrical Engineering','BS','engineering',['build','analyze']],['Environmental Engineering','BS','engineering',['build','analyze']],['Graphic & Experience Design','Bachelor','communications-creative',['create']],['Industrial Design','Bachelor','design-engineering',['create','build']],['Industrial Engineering','BS','engineering',['analyze','organize']],['Materials Science and Engineering','BS','engineering',['build','analyze']],['Mechanical Engineering','BS','engineering',['build','analyze']],['Meteorology','BS','science',['analyze']],['Nuclear Engineering','BS','engineering',['build','analyze']],['Political Science','BA / BS','social-science',['analyze','communicate']],['Psychology','BA','social-science',['help','analyze']],['Social Work','BSW','social-service',['help']],['Statistics - Data Science','BS','science-math',['analyze']],['Sustainable Materials and Technology','BS','engineering-technology',['build','analyze']],['Textile Engineering','BS','engineering',['build','analyze']]
+  ].map(([n,a,f,t])=>E('NC State',n,a,f,C,'ncstate-programs','four-year-college',t))
+]);
+
+export const EDUCATION_OPTION_BY_ID=Object.freeze(Object.fromEntries(EDUCATION_CATALOG.map(x=>[x.id,x])));
+export const EDUCATION_INSTITUTIONS=Object.freeze([...new Set(EDUCATION_CATALOG.map(x=>x.institution))]);
+export const EDUCATION_FAMILIES=Object.freeze([...new Set(EDUCATION_CATALOG.map(x=>x.family))].sort());
