@@ -15,6 +15,13 @@ export const PROGRAMS = Object.freeze([
     clusterIds:['advanced-manufacturing','pti-aerospace'], sourceIds:['gtcc-mechatronics','nces-cip-soc']
   },
   {
+    id:'gtcc-blet', institution:'GTCC', name:'Basic Law Enforcement Training (BLET)', credential:'BLET certificate / eligibility for NC state certification examination', routeType:'community-college',
+    durationMonths:5, costModel:{type:'published-program-estimate', amount:800, note:'Approximate uniforms, textbooks, and supplies; tuition is waived with qualifying agency sponsorship.'},
+    onRampClarity:5, admissionGate:'Must meet NC BLET requirements, be at least 20 at registration, and be hired or sponsored by a qualifying NC law-enforcement agency',
+    occupationRefs:[occupationRef('police-patrol-officer','direct','GTCC BLET is a direct academy pathway toward NC police/deputy certification eligibility')],
+    clusterIds:['public-service'], sourceIds:['gtcc-blet','bls-police']
+  },
+  {
     id:'gtcc-fame-mechatronics', institution:'GTCC / NC FAME', name:'FAME Advanced Manufacturing Technician pathway', credential:'Mechatronics AAS + sponsored paid work experience', routeType:'apprenticeship',
     cip:'15.0403', durationMonths:24, onRampClarity:5, admissionGate:'Application plus employer sponsorship/selection', earnWhileLearning:true,
     occupationRefs:[occupationRef('mechatronics-technician','direct'),occupationRef('industrial-machinery-mechanic','direct')],
@@ -52,6 +59,36 @@ export const PROGRAMS = Object.freeze([
     cip:'47.0303', durationMonths:24, onRampClarity:4, admissionGate:'College/program admission',
     occupationRefs:[occupationRef('industrial-machinery-mechanic','direct'),occupationRef('mechatronics-technician','strong')],
     clusterIds:['advanced-manufacturing'], sourceIds:['randolph-industrial','nces-cip-soc']
+  },
+  {
+    id:'agency-hired-blet', institution:'NC law-enforcement agency + GTCC', name:'Agency-hired / agency-sponsored BLET pathway', credential:'Agency hiring or sponsorship + BLET academy completion', routeType:'direct-work',
+    durationMonths:5, onRampClarity:5, admissionGate:'Agency hiring/sponsorship standards plus NC BLET eligibility requirements; hiring and pay during academy vary by agency',
+    occupationRefs:[occupationRef('police-patrol-officer','direct','Some agencies hire candidates and send them through BLET; sponsorship alone does not guarantee employment')],
+    clusterIds:['public-service'], sourceIds:['gtcc-blet','bls-police']
+  },
+  {
+    id:'military-enlisted-technical', institution:'U.S. Armed Forces', name:'Enlisted technical specialty + advanced training', credential:'Military occupational specialty training + service experience', routeType:'active-duty-military',
+    onRampClarity:4, admissionGate:'Enlistment eligibility, aptitude/ASVAB, medical and fitness standards, specialty qualifications, and service needs; assignment rules vary by branch', earnWhileLearning:true,
+    occupationRefs:[
+      occupationRef('avionics-technician','adjacent','Aviation/electronics specialties may transfer to civilian avionics after service and any required civilian credentials'),
+      occupationRef('information-security-analyst','adjacent','Cyber specialties can build relevant experience; civilian security roles may still require additional experience or credentials'),
+      occupationRef('computer-systems-analyst','adjacent','IT/systems specialties can create transferable systems experience'),
+      occupationRef('logistician','adjacent','Military logistics specialties can transfer into civilian supply-chain and logistics work'),
+      occupationRef('industrial-machinery-mechanic','adjacent','Mechanical maintenance specialties can create transferable maintenance experience')
+    ],
+    clusterIds:[], sourceIds:['military-onesource-careers','dfas-2026','va-gi-bill']
+  },
+  {
+    id:'airforce-cyber-active', institution:'U.S. Air Force', name:'Enlisted Cyber System Operations', credential:'Air Force technical training + enlisted cyber systems experience', routeType:'active-duty-military',
+    onRampClarity:4, admissionGate:'Air Force enlistment eligibility plus aptitude, medical, security, and specialty requirements', earnWhileLearning:true,
+    occupationRefs:[occupationRef('computer-systems-analyst','strong','Direct systems operations experience can transfer toward civilian systems roles'),occupationRef('information-security-analyst','adjacent','Relevant defensive/network experience can support later security entry')],
+    clusterIds:[], sourceIds:['airforce-cyber-systems','military-onesource-careers']
+  },
+  {
+    id:'airforce-cyber-guard', institution:'Air National Guard', name:'Enlisted Cyber System Operations', credential:'Air National Guard technical training + cyber systems experience', routeType:'guard-reserve',
+    onRampClarity:4, admissionGate:'Air National Guard enlistment eligibility plus aptitude, medical, security, unit vacancy, and specialty requirements', earnWhileLearning:true,
+    occupationRefs:[occupationRef('computer-systems-analyst','strong'),occupationRef('information-security-analyst','adjacent')],
+    clusterIds:[], sourceIds:['airforce-cyber-systems','nc-guard-ta','military-onesource-careers']
   },
   {
     id:'ncat-electrical-engineering-bs', institution:'NC A&T', name:'Electrical Engineering', credential:'BS', routeType:'four-year-college',
