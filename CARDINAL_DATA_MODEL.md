@@ -1,4 +1,4 @@
-# Cardinal Career Arbitrage — Data Model v0.1
+# Cardinal Career Arbitrage — Data Model v0.2
 
 Cardinal Career Arbitrage is a Central North Carolina decision-support extension of Career Arbitrage. It is intended to help high-school seniors compare post-high-school routes without assuming that a four-year degree, community college, apprenticeship, military service, direct work, or structured service year represents a universally superior definition of success.
 
@@ -102,8 +102,6 @@ For example:
 - higher `acutePressure` means more emergency/acute pressure
 - higher `serviceObligation` means more contractual obligation
 
-The future recommendation engine must compare these attributes against what the student says they value. It must never sum them into an unweighted career-quality score.
-
 ## Central NC cluster overlay
 
 Occupations and programs can attach to local opportunity clusters:
@@ -139,6 +137,89 @@ Preferred sources:
 
 Editorial descriptors are model judgments and should never be represented as externally measured facts.
 
+## Decision engine semantics
+
+The Cardinal engine now implements the first three decision stages.
+
+### 1. Route sieve
+
+The student explicitly selects every post-high-school route they are genuinely willing to investigate. Route types that are not selected are removed with an explanation trace. The application must present four-year college, community college, apprenticeship, active duty, Guard/Reserve, ROTC, direct work, and structured service as peer route types rather than a prestige ladder.
+
+### 2. Hard limits are different from preferences
+
+A hard limit is an explicit non-negotiable. Examples:
+- `humanContact.max = 25`
+- `acutePressure.max = 35`
+- `remotePotential.min = 70`
+- `serviceObligation.max = 20`
+
+Hard limits can eliminate a route or occupation.
+
+A normal preference never eliminates anything. It only affects compatibility ranking. For example, saying remote work is "very important" pushes remote-compatible occupations upward but leaves an electrician visible; saying remote work is "close to a requirement" creates a real minimum and can remove onsite-only occupations.
+
+This distinction is intentional and must survive future UI work.
+
+### 3. Weighted preference matching
+
+Preferences are represented as a desired target from 0–100 plus an importance weight. The engine scores closeness to the student's target only across dimensions the student actually weighted.
+
+Example:
+
+```js
+{
+  occupationPreferences: {
+    remotePotential: { target:100, weight:5 },
+    matureIncome: { target:100, weight:4 },
+    humanContact: { target:0, weight:3 }
+  }
+}
+```
+
+Compatibility is not career quality. A 90% match means "close to the tradeoffs this student stated," not "a 90/100 career."
+
+If a candidate lacks data for a weighted dimension, Cardinal does not silently disqualify it. The engine reports lower evidence coverage and returns the unknown field so the UI can say the recommendation is less certain.
+
+### 4. Explanation trace / “what you are giving up”
+
+Every elimination includes its explicit reason and threshold. `evaluateCardinal()` summarizes how many routes and occupations were removed by each stated constraint. This is intended to support a UI message such as:
+
+> Requiring high remote compatibility removed these onsite career families from consideration.
+
+The system should make the cost of a preference visible instead of magically hiding alternatives.
+
+## Career-blind sieve question bank
+
+`src/cardinal/sieve.js` contains the first career-title-blind question module. It asks about:
+- routes the student is willing to investigate
+- education/training cost
+- speed to income
+- earn-while-learning value
+- location control
+- structured obligation
+- human/customer/patient contact
+- physical work
+- acute/emergency pressure
+- schedule burden
+- eventual remote flexibility
+- mature income ceiling
+- first-job certainty
+- labor-market depth versus specialty
+
+Question options translate declaratively into preferences or hard limits. The question bank does not name occupations before the reveal.
+
+The question wording deliberately separates "prefer" from "hard no" and separates acute/emergency pressure from ordinary responsibility for accurate work.
+
+## Remaining stages
+
+The next bounded stages are:
+
+4. **Ordinary Tuesday scenarios** — refine workday preferences after broad routes remain viable.
+5. **Program / occupation projection** — connect surviving occupations to real Central NC programs without overstating broad-degree determinism.
+6. **Local overlay** — compare Triad depth and nearby Raleigh/Charlotte options without fabricating local certainty.
+7. **Money model** — compare training cost, earnings while learning, debt, age at first income, and age-30/35 financial scenarios.
+8. **Catch / failure modes** — explicitly explain what could make each surviving route go badly.
+9. **Next experiment** — recommend a concrete visit, shadow, conversation, application, or small trial rather than commanding a career choice.
+
 ## Seed scope
 
 The first seed deliberately covers representative comparison cases rather than the whole Internet:
@@ -154,19 +235,6 @@ The first seed deliberately covers representative comparison cases rather than t
 
 The architecture should be validated before expanding to the target canonical occupation universe (~80–90 occupations) and regional program set (~100–150 programs/routes).
 
-## Future scoring
-
-The next scoring engine should operate in stages:
-
-1. **Route sieve** — which post-high-school mechanisms is the student willing to consider?
-2. **Hard vetoes / kill list** — remove paths that violate absolute constraints such as patient contact, military obligation, four-year schooling, debt ceiling, physical work, or relocation.
-3. **Tradeoff weighting** — infer how strongly the student values income, speed, certainty, remote work, ceiling, portability, etc.
-4. **Ordinary Tuesday scenarios** — distinguish lived-work preferences after broad routes remain viable.
-5. **Local overlay** — compare Central NC depth and nearby Raleigh/Charlotte options without fabricating local certainty.
-6. **Money model** — compare training cost, earnings while learning, debt, age at first income, and age-30/35 financial scenarios.
-7. **Catch / failure modes** — explicitly explain what could make each surviving route go badly.
-8. **Next experiment** — recommend a concrete visit, shadow, conversation, application, or small trial rather than commanding a career choice.
-
 ## Validation guardrails
 
 `validateCardinalData()` currently rejects:
@@ -180,5 +248,7 @@ The next scoring engine should operate in stages:
 - non-HTTPS sources
 - missing source snapshot dates
 - universal score fields including `score`, `qualityScore`, `careerQuality`, `prestigeScore`, and `successScore`
+
+The decision-profile parser also rejects unknown route types, unknown preference/limit dimensions, malformed hard limits, and invalid answer IDs.
 
 These checks are intentionally opinionated. Cardinal is a decision-support system, not a prestige-ranking engine.
