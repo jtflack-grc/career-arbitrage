@@ -15,23 +15,23 @@ let state={screen:'home',sieveIndex:0,tuesdayIndex:0,sieveAnswers:{},tuesdayAnsw
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
 const pct=v=>v==null?'—':`${v}%`;
 
-function topbar(label='Central NC beta'){
+function topbar(label='Central NC'){
   return `<header class="topbar"><div class="brand"><div class="brand-mark" aria-hidden="true">CC</div><span>Cardinal Career Arbitrage</span></div><span class="pill">${label}</span></header>`;
 }
 
 function footer(){
-  return `<footer><strong>Independent prototype.</strong> Cardinal Career Arbitrage is parent-developed and is not an official Cornerstone Charter Academy program or endorsement. It is an educational decision-support tool, not a validated vocational assessment. Wage, tuition, admissions, military benefits, apprenticeship availability and labor-market conditions change. Data snapshot: August 2026.</footer>`;
+  return `<footer><strong>Independent tool.</strong> Cardinal Career Arbitrage is independently developed and is not an official Cornerstone Charter Academy program or endorsement. It is an educational decision-support tool, not a validated vocational assessment. Wage, tuition, admissions, military benefits, apprenticeship availability and labor-market conditions change. Data snapshot: August 2026.</footer>`;
 }
 
 function reset(){state={screen:'home',sieveIndex:0,tuesdayIndex:0,sieveAnswers:{},tuesdayAnswers:{},selectedRoutes:[]};render();}
 
 function renderHome(){
-  app.innerHTML=`${topbar('beta 0.2')}
+  app.innerHTML=`${topbar('Central NC · 2026 data')}
   <section class="hero">
     <div class="eyebrow">Central North Carolina × real tradeoffs</div>
     <h1>What does your next move actually buy you?</h1>
     <p class="lede">Start with the routes you are willing to consider. Price the tradeoffs before seeing career titles. Then use a few ordinary-workday choices to reveal occupations and nearby programs that fit what <em>you</em> said matters.</p>
-    <div class="cta-row"><button class="btn primary" id="start">Start Cardinal</button><a class="btn ghost" href="./index.html">Try original Career Arbitrage</a></div>
+    <div class="cta-row"><button class="btn primary" id="start">Start Cardinal</button></div>
     <div class="metrics">
       <div class="metric"><span>First</span><strong>Routes</strong><span>College, community college, apprenticeships, military/service, direct work.</span></div>
       <div class="metric"><span>Then</span><strong>Tradeoffs</strong><span>Money, time, obligation, remote work, people, physical work, schedule and certainty.</span></div>
@@ -177,7 +177,7 @@ function renderResults(){
 
   app.innerHTML=`${topbar('Your reveal')}
     <section class="hero"><div class="eyebrow">The reveal</div><h1>Your next moves, not your destiny.</h1><p class="lede">These are compatibility results against the tradeoffs you chose. They are not a ranking of human worth, prestige, or universal career quality.</p>
-      <div class="cta-row"><button class="btn primary" id="again">Run another test</button><a class="btn ghost" href="./index.html">Original career-only game</a></div>
+      <div class="cta-row"><button class="btn primary" id="again">Run another test</button></div>
     </section>
 
     <section class="surface"><div class="surface-head"><div><div class="eyebrow">01 · Route bargains</div><h2>How you said you are willing to get there</h2></div><div class="micro">${evaluation.routes.eliminated.length} route variants removed</div></div><div class="result-grid">${routes.map(routeCard).join('')}</div></section>
@@ -188,7 +188,7 @@ function renderResults(){
 
     <section class="surface"><div class="eyebrow">04 · What you gave up</div><h2>Your constraints have consequences</h2><p class="micro">Preferences only rank. Hard limits and routes you explicitly declined are what actually remove options.</p><h3>Routes</h3>${eliminationRows(evaluation.tradeoffSummary.routeReasons)}<h3 style="margin-top:1.2rem">Occupations</h3>${eliminationRows(evaluation.tradeoffSummary.occupationReasons)}</section>
 
-    <section class="surface"><div class="eyebrow">05 · Evidence</div><h2>Sources behind this beta slice</h2><p class="micro">The first beta intentionally uses a bounded local program/occupation set. Missing programs are not evidence against a career. We are testing the logic before expanding the catalog.</p><div class="source-row">${sources.map(s=>`<a class="tag" href="${s.url}" target="_blank" rel="noreferrer">${s.title}</a>`).join('')}</div></section>
+    <section class="surface"><div class="eyebrow">05 · Evidence</div><h2>Sources behind this release</h2><p class="micro">The current release intentionally uses a bounded local program/occupation set. Missing programs are not evidence against a career. The catalog will evolve as source data changes and coverage expands.</p><div class="source-row">${sources.map(s=>`<a class="tag" href="${s.url}" target="_blank" rel="noreferrer">${s.title}</a>`).join('')}</div></section>
     ${footer()}`;
   document.querySelector('#again').onclick=reset;
 }
