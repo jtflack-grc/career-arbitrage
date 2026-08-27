@@ -4,8 +4,12 @@ import { CLUSTERS } from './clusters.js';
 import { OCCUPATIONS } from './occupations.js';
 import { PROGRAMS } from './programs.js';
 import { ROUTES } from './routes.js';
+import { MILITARY_SPECIALTIES } from './military-specialties.js';
+import { EDUCATION_CATALOG } from './education-catalog.js';
+import { INTEREST_DIMENSIONS } from './interests.js';
 
 const forbiddenScoreFields = new Set(['score','qualityScore','careerQuality','prestigeScore','successScore']);
+const militaryRankPaths=new Set(['enlisted','officer','warrant-officer','later-service']);
 
 function duplicateIds(items, label, errors) {
   const seen = new Set();
@@ -41,6 +45,12 @@ function checkOccupationRefs(item, occupationIds, label, errors) {
   }
 }
 
+function checkInterestTags(item,label,errors){
+  for(const tag of item.interestTags||[]){
+    if(!INTEREST_DIMENSIONS[tag]) errors.push(`${label} ${item.id}: unknown interest tag ${tag}`);
+  }
+}
+
 export function validateCardinalData() {
   const errors = [];
   duplicateIds(SOURCES, 'source', errors);
@@ -48,6 +58,8 @@ export function validateCardinalData() {
   duplicateIds(OCCUPATIONS, 'occupation', errors);
   duplicateIds(PROGRAMS, 'program', errors);
   duplicateIds(ROUTES, 'route', errors);
+  duplicateIds(MILITARY_SPECIALTIES,'military-specialty',errors);
+  duplicateIds(EDUCATION_CATALOG,'education-option',errors);
 
   const sourceIds = new Set(SOURCES.map(x => x.id));
   const clusterIds = new Set(CLUSTERS.map(x => x.id));
@@ -74,9 +86,7 @@ export function validateCardinalData() {
     for (const key of expected) {
       if (!actual.includes(key)) errors.push(`occupation ${item.id}: missing dimension ${key}`);
       const value = item.dimensions?.[key];
-      if (value != null && (!Number.isFinite(value) || value < 0 || value > 100)) {
-        errors.push(`occupation ${item.id}: dimension ${key} outside 0-100`);
-      }
+      if (value != null && (!Number.isFinite(value) || value < 0 || value > 100)) errors.push(`occupation ${item.id}: dimension ${key} outside 0-100`);
     }
   }
 
@@ -86,9 +96,7 @@ export function validateCardinalData() {
     checkClusterIds(item, clusterIds, 'program', errors);
     checkOccupationRefs(item, occupationIds, 'program', errors);
     if (!ROUTE_TYPES.includes(item.routeType)) errors.push(`program ${item.id}: invalid routeType ${item.routeType}`);
-    if (!Number.isInteger(item.onRampClarity) || item.onRampClarity < 1 || item.onRampClarity > 5) {
-      errors.push(`program ${item.id}: onRampClarity must be integer 1-5`);
-    }
+    if (!Number.isInteger(item.onRampClarity) || item.onRampClarity < 1 || item.onRampClarity > 5) errors.push(`program ${item.id}: onRampClarity must be integer 1-5`);
   }
 
   for (const item of ROUTES) {
@@ -99,6 +107,23 @@ export function validateCardinalData() {
     for (const [key,value] of Object.entries(item.tradeoffs || {})) {
       if (!Number.isFinite(value) || value < 0 || value > 100) errors.push(`route ${item.id}: tradeoff ${key} outside 0-100`);
     }
+  }
+
+  for(const item of MILITARY_SPECIALTIES){
+    checkForbiddenFields(item,'military-specialty',errors);
+    checkSourceIds(item,sourceIds,'military-specialty',errors);
+    if(!militaryRankPaths.has(item.rankPath)) errors.push(`military-specialty ${item.id}: invalid rankPath ${item.rankPath}`);
+    if(!Array.isArray(item.components)||!item.components.length) errors.push(`military-specialty ${item.id}: missing components`);
+    for(const occupationId of item.occupationIds||[]) if(!occupationIds.has(occupationId)) errors.push(`military-specialty ${item.id}: unknown occupation ${occupationId}`);
+    if(item.asvab?.minimum!=null && (!Number.isFinite(item.asvab.minimum)||item.asvab.minimum<0||item.asvab.minimum>150)) errors.push(`military-specialty ${item.id}: invalid ASVAB/line-score minimum`);
+  }
+
+  for(const item of EDUCATION_CATALOG){
+    checkForbiddenFields(item,'education-option',errors);
+    checkSourceIds(item,sourceIds,'education-option',errors);
+    checkInterestTags(item,'education-option',errors);
+    if(!['four-year-college','community-college'].includes(item.routeType)) errors.push(`education-option ${item.id}: unsupported routeType ${item.routeType}`);
+    if(!['triad-core','central-nc-extended'].includes(item.scope)) errors.push(`education-option ${item.id}: invalid scope ${item.scope}`);
   }
 
   return errors;
