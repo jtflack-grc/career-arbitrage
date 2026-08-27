@@ -14,3 +14,4 @@ export { TUESDAY_QUESTIONS, applyTuesdayAnswers } from './tuesday.js';
 export { projectPrograms } from './program-projector.js';
 export { projectMilitarySpecialties, militaryCatalogStats } from './military-projector.js';
 export { projectEducationOptions, educationCatalogStats } from './education-projector.js';
+export { CAREER_EDUCATION_RULES, projectCareerPaths, careerEducationRuleCoverage } from './career-path-projector.js';
