@@ -141,9 +141,10 @@ function occupationCard(row,rank){
 function programCard(row,rank){
   const p=row.program;
   const best=row.bestOccupation;
-  return `<article class="card"><div class="card-head"><div><div class="kicker">Local bridge ${String(rank).padStart(2,'0')}</div><h3>${p.name}</h3><div class="micro">${p.institution}</div></div><div class="score">${row.alignmentScore==null?'—':row.alignmentScore}</div></div>
+  return `<article class="card"><div class="card-head"><div><div class="kicker">Bridge ${String(rank).padStart(2,'0')}</div><h3>${p.name}</h3><div class="micro">${p.institution}</div></div><div class="score">${row.alignmentScore==null?'—':row.alignmentScore}</div></div>
+    <div class="tags"><span class="tag">${row.routeType}</span>${p.earnWhileLearning?`<span class="tag">Earn while learning</span>`:''}</div>
     <div class="program-meta"><div><span>Credential</span><b>${p.credential}</b></div><div><span>Normal duration</span><b>${p.durationMonths?`${p.durationMonths} mo.`:'Varies'}</b></div><div><span>On-ramp clarity</span><b>${p.onRampClarity}/5</b></div></div>
-    <p class="micro"><strong>Admission gate:</strong> ${p.admissionGate}</p>${p.earnWhileLearning?`<div class="tags"><span class="tag">Earn while learning</span></div>`:''}
+    <p class="micro"><strong>Admission gate:</strong> ${p.admissionGate}</p>
     ${best?`<p class="micro"><strong>${best.relationship}</strong> connection to ${best.occupationName} · occupational compatibility ${best.occupationScore}%${best.note?` · ${best.note}`:''}</p>`:'<p class="micro">Gateway/transfer route; no single occupation should be inferred from the credential alone.</p>'}
   </article>`;
 }
@@ -170,10 +171,14 @@ function renderResults(){
   try{baseProfile=buildDecisionProfileFromAnswers(state.sieveAnswers);}catch(err){app.innerHTML=`${topbar('Error')}<section class="surface"><h2>We hit a profile error.</h2><p>${err.message}</p><button class="btn primary" id="reset">Restart</button></section>${footer()}`;document.querySelector('#reset').onclick=reset;return;}
   const finalProfile=applyTuesdayAnswers(baseProfile,state.tuesdayAnswers);
   const evaluation=evaluateCardinal(finalProfile);
-  const programRows=projectPrograms(evaluation,{limit:10});
   const routes=evaluation.routes.surviving.slice(0,4);
   const occupations=evaluation.occupations.surviving.slice(0,6);
+  const programRows=projectPrograms(evaluation,{limit:10,occupationIds:occupations.map(row=>row.id),maxPerOccupation:2});
   const sources=sourceLinks(evaluation,programRows);
+  const selectedRouteLabels=finalProfile.allowedRouteTypes.map(id=>ROUTE_SIEVE_OPTIONS.find(x=>x.id===id)?.label||id).join(' · ');
+  const bridgeGrid=programRows.length
+    ? `<div class="result-grid">${programRows.slice(0,8).map(programCard).join('')}</div>`
+    : `<div class="callout"><strong>No congruent bridge in the current catalog.</strong> None of the currently modeled programs both match your visible occupation results and use a route you kept open. Cardinal will not substitute an unrelated four-year degree or other pathway just to fill this panel.</div>`;
 
   app.innerHTML=`${topbar('Your reveal')}
     <section class="hero"><div class="eyebrow">The reveal</div><h1>Your next moves, not your destiny.</h1><p class="lede">These are compatibility results against the tradeoffs you chose. They are not a ranking of human worth, prestige, or universal career quality.</p>
@@ -184,7 +189,7 @@ function renderResults(){
 
     <section class="surface"><div class="surface-head"><div><div class="eyebrow">02 · Occupations</div><h2>Work that fits the life you described</h2></div><div class="micro">${evaluation.occupations.eliminated.length} occupations removed by hard constraints</div></div><div class="result-grid">${occupations.map(occupationCard).join('')}</div></section>
 
-    <section class="surface"><div class="surface-head"><div><div class="eyebrow">03 · Central NC bridges</div><h2>Actual programs that connect to surviving occupations</h2></div><div class="micro">Alignment = occupation compatibility × relationship strength. It is not a school ranking.</div></div><div class="result-grid">${programRows.slice(0,8).map(programCard).join('')}</div></section>
+    <section class="surface"><div class="surface-head"><div><div class="eyebrow">03 · Route-congruent bridges</div><h2>Actual next steps for the routes you kept open</h2></div><div class="micro">Only programs/training paths tied to the occupations above and your selected route types can appear here.</div></div><p class="micro"><strong>Routes kept open:</strong> ${selectedRouteLabels}</p>${bridgeGrid}</section>
 
     <section class="surface"><div class="eyebrow">04 · What you gave up</div><h2>Your constraints have consequences</h2><p class="micro">Preferences only rank. Hard limits and routes you explicitly declined are what actually remove options.</p><h3>Routes</h3>${eliminationRows(evaluation.tradeoffSummary.routeReasons)}<h3 style="margin-top:1.2rem">Occupations</h3>${eliminationRows(evaluation.tradeoffSummary.occupationReasons)}</section>
 
