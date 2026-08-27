@@ -7,3 +7,5 @@ export { ROUTES, ROUTE_BY_ID } from './routes.js';
 export { validateCardinalData, assertCardinalData } from './validate.js';
 export { createDecisionProfile, evaluateRoutes, evaluateOccupations, evaluateCardinal, compareCandidates } from './decision-engine.js';
 export { ROUTE_SIEVE_OPTIONS, SIEVE_QUESTIONS, SIEVE_QUESTION_BY_ID, buildDecisionProfileFromAnswers, describeSieveAnswers } from './sieve.js';
+export { TUESDAY_QUESTIONS, applyTuesdayAnswers } from './tuesday.js';
+export { projectPrograms } from './program-projector.js';
