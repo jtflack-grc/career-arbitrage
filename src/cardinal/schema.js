@@ -23,6 +23,17 @@ export const DATA_STATUS = Object.freeze([
   'speculative'
 ]);
 
+// Route dimensions describe the bargain represented by a post-high-school route.
+// Higher numbers always mean “more of the named attribute,” never “better.”
+export const ROUTE_DIMENSIONS = Object.freeze({
+  costBurden: { label: 'Up-front education / training cost burden', polarity: 'more' },
+  timeToIncome: { label: 'Time before meaningful full-time income', polarity: 'more' },
+  earnWhileLearning: { label: 'Earn-while-learning potential', polarity: 'more' },
+  locationControl: { label: 'Control over where you live / train', polarity: 'more' },
+  serviceObligation: { label: 'Contractual / service obligation', polarity: 'more' },
+  credentialSpecificity: { label: 'Specificity of the first occupational credential', polarity: 'more' }
+});
+
 // These are independent facts/preferences, not a hidden universal quality score.
 // Higher numbers always mean “more of the named attribute,” not “better.”
 export const OCCUPATION_DIMENSIONS = Object.freeze({
