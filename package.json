@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "check": "node --check src/data.js && node --check src/engine.js && node --check src/app.js"
+    "check": "node --check src/data.js && node --check src/engine.js && node --check src/app.js && node --check src/cardinal/schema.js && node --check src/cardinal/sources.js && node --check src/cardinal/clusters.js && node --check src/cardinal/occupations.js && node --check src/cardinal/programs.js && node --check src/cardinal/routes.js && node --check src/cardinal/validate.js && node --check src/cardinal/decision-engine.js && node --check src/cardinal/sieve.js && node --check src/cardinal/tuesday.js && node --check src/cardinal/program-projector.js && node --check src/cardinal/index.js && node --check src/cardinal-app.js"
   }
 }
