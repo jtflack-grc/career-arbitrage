@@ -63,44 +63,9 @@ A low value can be exactly correct for a transfer degree. It does not mean the p
 
 Occupations are canonical labor-market destinations, preferably aligned to federal SOC codes.
 
-Occupations contain two kinds of data:
-
-**Sourced evidence**
-- local wage snapshots
-- national employment/openings/growth where available
-- entry education
-- license/certification information
-- regional cluster links
-- source provenance
-
-**Editorial preference descriptors**
-- early income
-- mature income
-- entry reliability
-- market depth
-- Central NC strength
-- credential moat
-- education-cost burden
-- time to full-time income
-- earn-while-training potential
-- remote potential
-- human contact
-- physical intensity
-- acute/emergency pressure
-- schedule burden
-- geographic portability
-- automation resilience/complementarity
-- exit-option density
-- self-employment potential
-- service obligation
+Occupations contain sourced evidence such as wage/opening snapshots and editorial preference descriptors such as income, remote potential, contact load, physical intensity, acute pressure, credential moat and exit-option density.
 
 Descriptors use 0–100 as a normalized amount of the named attribute. Higher does not mean better.
-
-For example:
-- higher `remotePotential` means more remote-compatible
-- higher `physicalIntensity` means more physical work
-- higher `acutePressure` means more emergency/acute pressure
-- higher `serviceObligation` means more contractual obligation
 
 ## Central NC cluster overlay
 
@@ -126,129 +91,47 @@ Announced projects must not be counted as current employment merely because a fu
 
 Every factual dataset record should reference source IDs from `sources.js`.
 
-Preferred sources:
-- BLS / OOH / OEWS
-- NC Commerce D4 and employment projections
-- NCES CIP-SOC crosswalk
-- current institutional catalogs/program pages
-- apprenticeship program documentation
-- DFAS / VA / NC National Guard for military economics
-- official employer or economic-development material for regional cluster status
+Preferred sources include BLS/OEWS, NC Commerce, NCES CIP-SOC, current institutional catalogs, apprenticeship documentation, DFAS/VA/NCNG, and official employer/economic-development sources.
 
 Editorial descriptors are model judgments and should never be represented as externally measured facts.
 
-## Decision engine semantics
+## Decision pipeline
 
-The Cardinal engine now implements the first three decision stages.
+The playable beta at `cardinal.html` implements:
 
-### 1. Route sieve
+1. **Route sieve** — select every post-high-school mechanism the student is genuinely willing to investigate.
+2. **Hard vetoes / kill list** — only explicit limits eliminate routes or occupations.
+3. **Tradeoff weighting** — ordinary preferences rank survivors but never silently remove them.
+4. **Ordinary Tuesday calibration** — five career-title-blind workday scenarios refine lived-work preferences.
+5. **Occupation reveal** — surviving occupations are ranked by compatibility with stated preferences.
+6. **Program projection** — actual regional programs are connected back to surviving occupations using direct/strong/adjacent/exploratory relationships.
+7. **Tradeoff trace** — the result page shows what was eliminated and why.
+8. **Evidence links** — top result sources are visible in the beta.
 
-The student explicitly selects every post-high-school route they are genuinely willing to investigate. Route types that are not selected are removed with an explanation trace. The application must present four-year college, community college, apprenticeship, active duty, Guard/Reserve, ROTC, direct work, and structured service as peer route types rather than a prestige ladder.
+The beta intentionally stops before a full age-30/35 money model and before bulk ingestion of the target 80–90 occupations / 100–150 programs.
 
-### 2. Hard limits are different from preferences
+## Scoring semantics
 
-A hard limit is an explicit non-negotiable. Examples:
-- `humanContact.max = 25`
-- `acutePressure.max = 35`
-- `remotePotential.min = 70`
-- `serviceObligation.max = 20`
+### Preferences are not vetoes
 
-Hard limits can eliminate a route or occupation.
+A student saying “remote work is very important” weights remote-compatible occupations upward but does not eliminate electricians, aviation, manufacturing or healthcare.
 
-A normal preference never eliminates anything. It only affects compatibility ranking. For example, saying remote work is "very important" pushes remote-compatible occupations upward but leaves an electrician visible; saying remote work is "close to a requirement" creates a real minimum and can remove onsite-only occupations.
+A student saying “remote capability is basically required” creates an explicit minimum and can eliminate occupations that fail it.
 
-This distinction is intentional and must survive future UI work.
+The same distinction exists for human contact, physical work, acute pressure, schedule burden and service obligation.
 
-### 3. Weighted preference matching
+### Missing data do not eliminate
 
-Preferences are represented as a desired target from 0–100 plus an importance weight. The engine scores closeness to the student's target only across dimensions the student actually weighted.
+If a preferred or limited dimension is unknown for a record, Cardinal reports lower evidence coverage / unknown-limit evidence. Missing data do not silently disqualify a route or occupation.
 
-Example:
+### Program alignment is not school quality
 
-```js
-{
-  occupationPreferences: {
-    remotePotential: { target:100, weight:5 },
-    matureIncome: { target:100, weight:4 },
-    humanContact: { target:0, weight:3 }
-  }
-}
-```
-
-Compatibility is not career quality. A 90% match means "close to the tradeoffs this student stated," not "a 90/100 career."
-
-If a candidate lacks data for a weighted dimension, Cardinal does not silently disqualify it. The engine reports lower evidence coverage and returns the unknown field so the UI can say the recommendation is less certain.
-
-### 4. Explanation trace / “what you are giving up”
-
-Every elimination includes its explicit reason and threshold. `evaluateCardinal()` summarizes how many routes and occupations were removed by each stated constraint. This is intended to support a UI message such as:
-
-> Requiring high remote compatibility removed these onsite career families from consideration.
-
-The system should make the cost of a preference visible instead of magically hiding alternatives.
-
-## Career-blind sieve question bank
-
-`src/cardinal/sieve.js` contains the first career-title-blind question module. It asks about:
-- routes the student is willing to investigate
-- education/training cost
-- speed to income
-- earn-while-learning value
-- location control
-- structured obligation
-- human/customer/patient contact
-- physical work
-- acute/emergency pressure
-- schedule burden
-- eventual remote flexibility
-- mature income ceiling
-- first-job certainty
-- labor-market depth versus specialty
-
-Question options translate declaratively into preferences or hard limits. The question bank does not name occupations before the reveal.
-
-The question wording deliberately separates "prefer" from "hard no" and separates acute/emergency pressure from ordinary responsibility for accurate work.
-
-## Remaining stages
-
-The next bounded stages are:
-
-4. **Ordinary Tuesday scenarios** — refine workday preferences after broad routes remain viable.
-5. **Program / occupation projection** — connect surviving occupations to real Central NC programs without overstating broad-degree determinism.
-6. **Local overlay** — compare Triad depth and nearby Raleigh/Charlotte options without fabricating local certainty.
-7. **Money model** — compare training cost, earnings while learning, debt, age at first income, and age-30/35 financial scenarios.
-8. **Catch / failure modes** — explicitly explain what could make each surviving route go badly.
-9. **Next experiment** — recommend a concrete visit, shadow, conversation, application, or small trial rather than commanding a career choice.
-
-## Seed scope
-
-The first seed deliberately covers representative comparison cases rather than the whole Internet:
-- aerospace / aviation
-- advanced manufacturing / automation
-- skilled trades
-- engineering
-- computing / data
-- business / logistics
-- non-bedside and bedside healthcare controls
-- public service
-- transportation
-
-The architecture should be validated before expanding to the target canonical occupation universe (~80–90 occupations) and regional program set (~100–150 programs/routes).
+The program projection score is the best surviving occupation compatibility multiplied by the explicit relationship strength between that program and occupation. It is a path-alignment signal only, not an institutional ranking.
 
 ## Validation guardrails
 
-`validateCardinalData()` currently rejects:
-- duplicate IDs
-- malformed SOC codes
-- orphan occupation/program/cluster/source references
-- invalid relationship types
-- invalid route types
-- missing occupation dimensions
-- descriptor values outside 0–100
-- non-HTTPS sources
-- missing source snapshot dates
-- universal score fields including `score`, `qualityScore`, `careerQuality`, `prestigeScore`, and `successScore`
+`validateCardinalData()` rejects duplicate IDs, malformed SOC codes, orphan references, invalid relationship/route types, missing occupation dimensions, descriptor values outside 0–100, non-HTTPS sources, missing source dates, and universal score fields such as `qualityScore`, `prestigeScore`, and `successScore`.
 
-The decision-profile parser also rejects unknown route types, unknown preference/limit dimensions, malformed hard limits, and invalid answer IDs.
+Automated tests additionally verify that route preferences do not masquerade as vetoes, hard limits do eliminate conflicting records, Tuesday calibration preserves hard limits, and program projection cannot revive an occupation eliminated by a hard constraint.
 
 These checks are intentionally opinionated. Cardinal is a decision-support system, not a prestige-ranking engine.
