@@ -27,6 +27,7 @@ export const SOURCES = Object.freeze([
   source('gtcc-aviation','GTCC Aviation Systems Technology','https://www.gtcc.edu/academics/academic-programs/programs/manufacturing-transportation-construction/aviation-systems-technology.php','2026-08'),
   source('gtcc-mechatronics','GTCC Mechatronics Engineering Technology','https://gtcc.edu/academics/academic-programs/programs/STEM/mechatronics-engineering-technology.php','2026-08'),
   source('gtcc-fame','GTCC NC FAME','https://www.gtcc.edu/gtccfame/index.php','2026-08'),
+  source('gtcc-blet','GTCC Basic Law Enforcement Training (BLET)','https://www.gtcc.edu/academics/academic-programs/programs/public-safety/basic-law-enforcement-training.php','2026-08'),
   source('gap','Guilford Apprenticeship Partners','https://gapnc.org/','2026-08'),
   source('forsyth-catalog','Forsyth Tech 2026-27 Catalog','https://catalog.forsythtech.edu/2627/program','2026-08'),
   source('randolph-industrial','Randolph CC Industrial Systems Technology','https://www.randolph.edu/academics/college-majors/industrial-systems-technology/index.aspx','2026-08'),
@@ -41,6 +42,8 @@ export const SOURCES = Object.freeze([
   source('dfas-2026','DFAS 2026 Enlisted Basic Pay','https://www.dfas.mil/MilitaryMembers/payentitlements/Pay-Tables/Basic-Pay/EM/','2026'),
   source('va-gi-bill','VA Post-9/11 GI Bill Rates','https://www.va.gov/education/benefit-rates/post-9-11-gi-bill-rates/','2026-27'),
   source('nc-guard-ta','NC National Guard Tuition Assistance Program','https://ng.nc.gov/north-carolina-tuition-assistance-program-nctap','2026-08'),
+  source('military-onesource-careers','Military OneSource - Military Jobs, Opportunities & Resources','https://www.militaryonesource.mil/resources/millife-guides/military-career/','2026-08'),
+  source('airforce-cyber-systems','U.S. Air Force - Enlisted Cyber System Operations','https://www.airforce.com/careers/intelligence/cyber-system-operations','2026-08'),
   source('americorps-nccc','AmeriCorps NCCC','https://www.americorps.gov/serve/americorps/americorps-nccc','2026-08')
 ]);
 
