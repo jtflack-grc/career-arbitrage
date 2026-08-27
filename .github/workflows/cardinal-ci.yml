@@ -1,13 +1,17 @@
-name: Cardinal Data Model CI
+name: Cardinal CI
 
 on:
   push:
     branches:
-      - feature/cardinal-data-model
+      - 'feature/cardinal-*'
   pull_request:
     paths:
+      - 'index.html'
+      - 'cardinal.html'
+      - 'cardinal.css'
+      - 'src/cardinal-app.js'
       - 'src/cardinal/**'
-      - 'test/cardinal-data.test.mjs'
+      - 'test/cardinal-*.test.mjs'
       - 'package.json'
       - 'CARDINAL_DATA_MODEL.md'
       - '.github/workflows/cardinal-ci.yml'
